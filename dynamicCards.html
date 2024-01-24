@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Webstie Task</title>
-
+    <title>Dynamically Append Cards</title>
     <style>
         * {
             margin: 0;
@@ -67,11 +65,9 @@
         }
     </style>
 </head>
-
 <body>
     <script>
         function createCard({ channel, heading, imgSrc, duration, time, views }) {
-
             if (views >= 1000000) {
                 views = (views / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
             }
@@ -97,7 +93,7 @@
         }
 
         cards = {
-            tut1: {
+            c1: {
                 channel: 'AbcDeveloper',
                 heading: 'Your First HTML Website | Online Web Development Course - Tutorial #1',
                 imgSrc: 'https://th.bing.com/th/id/OIP.N5HPS-KdEPcGbGYMC3ww8AHaEI?rs=1&pid=ImgDetMain',
@@ -105,17 +101,15 @@
                 time: '2 months ago',
                 views: '567000'
             },
-
-            tut2: {
+            c2: {
                 channel: 'CodeWithHarry',
                 heading: 'Design Dynamic Website | Sigma Web Development Course - Tutorial #2',
-                imgSrc: 'https://i.ytimg.com/vi/kJEsTjH5mVg/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLBTa4i6NuryzZhcPo7BkCK1G6PqGg',
+                imgSrc: 'https://i.ytimg.com/vi/kJEsTjH5mVg/hqdefault.jpg',
                 duration: '31:15',
                 time: '3 months ago',
                 views: '8040000'
             },
-
-            tut3: {
+            c3: {
                 channel: 'AbcDeveloper',
                 heading: 'Welcome to JS | Online Web Development Course - Tutorial #3',
                 imgSrc: 'https://th.bing.com/th/id/OIP.N5HPS-KdEPcGbGYMC3ww8AHaEI?rs=1&pid=ImgDetMain',
@@ -125,11 +119,9 @@
             }
         }
 
-        createCard(cards['tut1'])
-        createCard(cards['tut2'])
-        createCard(cards['tut3'])
-
+        for (let key in cards) {
+            createCard(cards[key])
+        }
     </script>
 </body>
-
 </html>
