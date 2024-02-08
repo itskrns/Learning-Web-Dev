@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning JS Events</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .container div {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <script>
+        let btn = document.querySelector(".container")
+        
+        function colorGen(number) {
+            return (Math.random() * (number + 1))
+        }
+
+        function test (e) {
+            return `rgb(${colorGen(255)} ${colorGen(255)} ${colorGen(255)})`
+        }
+
+        btn.addEventListener("click", (e) => {
+            e.target.style.backgroundColor = test()
+        })
+    </script>
+</body>
+</html>

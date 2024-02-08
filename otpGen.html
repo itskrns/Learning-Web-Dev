@@ -23,6 +23,20 @@
             gap: 5px 20px;
         }
 
+        h3 {
+            padding: 10px 10px 15px 10px;
+            color:gray;
+            font-weight: 300;
+        }
+
+        .otpBox {
+            border: solid 1px grey;
+            padding: 20px;
+            width: 20vw;
+            letter-spacing: 7px;
+            color: darkslategray
+        }
+
         .btnBox {
             flex-flow: row wrap;
         }
@@ -39,6 +53,7 @@
             border: none;
             background-color: blue;
             color: white;
+            cursor: pointer;
         }
 
         .resetBtn {
@@ -53,14 +68,6 @@
         .resetBtn:hover {
             background-color: lightgrey;
             color: red;
-        }
-
-        .otpBox {
-            border: solid 1px grey;
-            padding: 20px;
-            width: 20vw;
-            letter-spacing: 7px;
-            color: darkslategray
         }
 
         @media screen and (max-width:950px) {
@@ -90,6 +97,7 @@
 
 <body>
     <div class="container">
+        <h3>6-digits OTP Generator</h3>
         <div class="otpBox">_ _ _ _ _ _</div>
         <div class="btnBox">
             <button type="submit" onclick="genOtp()" class="genBtn">Generate OTP</button>
