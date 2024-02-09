@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacking Terminal using async/await</title>
+    <style>
+        * {
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        .terminal {
+            background: rgb(1, 37, 1);
+            height: 100vh;
+            padding: 20px;
+            font-size: 25px;
+            color: white;
+            line-height: 50px;
+        }
+
+        span {
+            animation: blink 1s steps(1, end) infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media screen and (max-width:640px) {
+            .terminal {
+                font-size: 20px;
+                line-height: 40px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="terminal"></div>
+    
+    <script>
+        let terminal = document.querySelector('.terminal')
+        let msgs = ['Initializing Hacking', 'Reading your files', 'Password files detected', 'Sending all password & personal files to server', 'Cleaning up']
+
+        function timeInt() {
+            return new Promise((resolve) => {
+                time = (1 + Math.random() * 9) * 1000
+                setTimeout(() => {
+                    resolve()
+                }, time)
+            })
+        }
+
+        async function appendMsg(msg) {
+            await timeInt()
+            terminal.innerHTML += msg + '<span>...</span><br>'
+        }
+
+        async function hacking() {
+            for (let msg of msgs) {
+                await appendMsg(msg)
+            }
+        }
+
+        hacking()
+    </script>
+</body>
+
+</html>
