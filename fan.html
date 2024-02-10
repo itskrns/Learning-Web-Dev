@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Web Dev</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container,
+        .controls,
+        .box, .on_off, .btns {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column nowrap;
+        }
+
+        .box {
+            border: solid 10px rgb(35, 157, 206);
+            height: 230px;
+            width: 230px;
+            border-radius: 50%;
+            object-fit: contain;
+            margin: 20px;
+        }
+
+        .controls .on_off, .btns {
+            flex-flow: row wrap;
+            margin: 5px;
+        }
+
+        .controls .on_off img {
+            width: 90px;
+            aspect-ratio: 3/2;
+            object-fit: contain;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            margin: 0px 5px;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(35, 157, 206);
+        }
+
+        .controls img:hover,
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media screen and (max-width:950px) {
+            .controls {
+                flex-flow: column;
+            }
+
+            .controls img {
+                width: 15%;
+                aspect-ratio: 3/2;
+                object-fit: contain;
+            }
+
+            .controls button {
+                padding: 10px 20px;
+                margin: 0px 5px;
+                border: none;
+                border-radius: 50%;
+                font-size: 18px;
+                font-weight: bold;
+                color: rgb(35, 157, 206);
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <img src="https://cdn-icons-png.flaticon.com/512/10656/10656982.png" alt="" id="fan" width="180px" height="180px">
+        </div>
+    </div>
+    <div class="controls">
+        <div class="on_off">
+            <img src="https://cdn-icons-png.flaticon.com/512/889/889754.png" alt="" onclick="on()">
+            <img src="https://cdn-icons-png.flaticon.com/512/889/889758.png" alt="" onclick="off()">
+        </div>
+        <div class="btns">
+            <button onclick="one()">1</button>
+            <button onclick="two()">2</button>
+            <button onclick="three()">3</button>
+            <button onclick="four()">4</button>
+        </div>
+    </div>
+
+    <script>
+        let fan = document.querySelector('#fan')
+        let start = false
+
+        function on() {
+            fan.style = 'animation: spin 2s linear infinite;'
+            start = true
+        }
+
+        function one() {
+            start ? fan.style = 'animation: spin 1s linear infinite;' : off()
+        }
+
+        function two() {
+            start ? fan.style = 'animation: spin 0.9s linear infinite;' : off()
+        }
+
+        function three() {
+            start ? fan.style = 'animation: spin 0.4s linear infinite;' : off()
+        }
+
+        function four() {
+            start ? fan.style = 'animation: spin 0.2s linear infinite;' : off()
+        }
+
+        function off() {
+            fan.style = 'animation:none;'
+            start = false
+        }
+    </script>
+</body>
+
+</html>
