@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" id="todo-form">
+        <input type="text" name="" id="new-todo" placeholder="enter new task">
+        <input type="submit" value="add">
+    </form>
+    <div class="todo-list">
+        
+    </div>
+
+    <script>
+        const todoListEL = document.querySelector('.todo-list')
+        const newTodoEL = document.querySelector('#new-todo')
+        const todoForm = document.querySelector('#todo-form')
+        let todoList = []
+
+        todoForm.addEventListener('submit', function(event) {
+            event.preventDefault()
+
+            let id = todoList.length > 0? todoList[todoList.length -1].id +1 :  0
+            const newTodo = {task: newTodoEL.value, checked: false, id}
+            todoList.push(newTodo)
+            localStorage.setItem('todoList', JSON.stringify(todoList))
+            alert('todo added')
+            main()
+        })
+
+        function main() {
+            const todoLocal = JSON.parse(localStorage.getItem('todoList'))
+            if (todoLocal && todoLocal.length > 0) {
+                todoList = todoLocal
+                renderTodo(todoLocal)
+            }
+            
+        } main()
+
+        function renderTodo(list) {
+            let todosHTML = list.map(el => {
+                return `<div class="todo-element">
+                        <input type="checkbox" ${el.checked? 'checked': ''} class="check-input" id=${el.id}>
+                        <p>${el.task}</p>
+                    </div>`
+            })
+            todosHTML = todosHTML.toString().split(',').join(' ')
+           todoListEL.innerHTML = ''
+           todoListEL.insertAdjacentHTML('afterbegin', todosHTML)
+        }
+
+      todoListEL.addEventListener('change', function(event) {
+        const taskID = event.target.id * 1
+        todoList.forEach((el) => {
+            if (el.id === taskID) {
+                el.checked = !el.checked
+            }
+        })
+        localStorage.setItem('todoList', JSON.stringify(todoList))
+        main()
+      })
+
+</script>
+</body>
+</html>

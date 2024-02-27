@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List using JS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-flow: column nowrap;
+            height: auto;
+            width: 50vw;
+            margin: 10px auto;
+            padding: 10px 10px 30px 10px;
+            border-radius: 5px;
+            border: solid 1px #f2f3f4;
+            background: beige;
+        }
+
+        .heading {
+            color: gray;
+            line-height: 30px;
+            padding: 2px 5px;
+        }
+
+        .add-task-box {
+            margin: 10px 0px 0px 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .add-task-box input {
+            padding: 10px 20px;
+            border: solid 1px lightgrey;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            transition: transform 0.3s;
+            background: slateblue;
+            color: white
+        }
+
+        .alert {
+            text-align: center;
+            padding: 10px;
+            color: slateblue;
+        }
+
+        .taskBox {
+            display: flex;
+            align-items: baseline;
+            list-style-type: none;
+            background: slateblue;
+            color: white;
+            padding: 18px 14px;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 80px;
+            border-radius: 5px;
+        }
+
+        .taskBox input {
+            margin: 0px 5px;
+            outline: none;
+        }
+
+        .taskBox .box {
+            flex: 1;
+        }
+
+        .taskBox button {
+            background: grey;
+        }
+
+        .marked {
+            text-decoration: line-through;
+            text-decoration-color: gray;
+            color: lightgrey
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        @media screen and (max-width:950px) {
+            .container {
+                width: 90vw;
+                background: beige;
+                border: none;
+            }
+
+            .add-task-box {
+                flex-flow: column wrap;
+                gap: 5px;
+                margin: 10px 0px 0px 0px;
+            }
+
+            .heading {
+                font-size: 20px;
+                color: gray;
+                line-height: 30px;
+            }
+
+            .taskBox {
+                padding: 14px;
+                font-size: 18px;
+                margin: 10px 30px;
+            }
+
+            .taskBox button {
+                margin: 0px 5px;
+                outline: none;
+                padding: 8px 10px;
+            }
+
+        }
+    </style>
+</head>
+
+<body onload="getList()">
+    <div class="container">
+        <h2 class="heading">To-Do List</h2>
+        <hr>
+        <div class="add-task-box">
+            <input type="text" id="task" placeholder="Add a task">
+            <button type="submit" onclick="addTask()">Add Task</button>
+        </div>
+
+        <div class="alert"></div>
+        <div class="todo-list"></div>
+    </div>
+
+    <script>
+        let todoList = document.querySelector('.todo-list')
+        let task = document.querySelector('#task')
+        let alert = document.querySelector('.alert')
+        let box = document.querySelector('.box')
+        let taskList = []
+
+        const showAlert = (msg) => {
+            alert.innerHTML = msg
+            setTimeout(() => {
+                alert.innerHTML = ''
+            }, 1200)
+        }
+
+        const addTask = () => {
+            if (task.value === '') {
+                showAlert('Please enter a task!')
+            }
+
+            else {
+                let id = taskList.length > 0 ? taskList[taskList.length - 1].id + 1 : 0
+                let newTask = { task: task.value, checked: false, id: id }
+                taskList.push(newTask)
+                task.value = ''
+                saveList()
+                showAlert('Task added successfully!')
+                getList()
+            }
+        }
+
+        const saveList = () => {
+            localStorage.setItem("taskList", JSON.stringify(taskList))
+        }
+
+        const getList = () => {
+            const todoTasks = JSON.parse(localStorage.getItem("taskList"))
+
+            if (todoTasks && todoTasks.length > 0) {
+                taskList = todoTasks
+                showList(todoTasks)
+            }
+        }
+
+        const showList = (tasks) => {
+            let data = tasks.map(t => {
+                return `<div class="taskBox">
+                            <div class="box ${t.checked ? 'marked' : ''}">
+                            <input type="checkbox" ${t.checked ? 'checked' : ''} id=${t.id}>
+                            ${t.task[0].toUpperCase() + t.task.slice(1, t.task.length)}
+                        </div>
+                        <button id=${t.id}>Delete</button></div>`
+            })
+            saveList()
+            data = data.toString().split(',').join(' ')
+            todoList.innerHTML = data
+        }
+
+        todoList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'INPUT') {
+                const taskId = e.target.id * 1
+                taskList.forEach((t) => {
+                    if (t.id === taskId) {
+                        t.checked = !t.checked
+
+                        if (t.checked === true) {
+                            showAlert('Task marked completed!')
+                        }
+                        else if (t.checked === false) {
+                            showAlert('Task marked pending!')
+                        }
+                    }
+                })
+            }
+
+            else if (e.target.tagName === 'BUTTON') {
+                const taskId = e.target.id * 1
+                taskList.forEach((t) => {
+                    if (t.id === taskId) {
+                        taskList.splice(taskList.indexOf(t), 1)
+                        e.target.parentElement.remove()
+                    }
+                })
+
+                showAlert('Task deleted successfully!')
+            }
+
+            saveList()
+            getList()
+
+        })
+
+    </script>
+</body>
+
+</html>

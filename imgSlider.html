@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column;
+      width: 80vw;
+      height: 90vh;
+      margin: auto;
+    }
+
+
+    .heading {
+      font-size: 30px;
+      padding: 20px;
+      color: slateblue;
+      font-weight: bolder;
+    }
+
+    .slider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 70vw;
+      height: 70vh;
+      border-radius: 5px;
+      border: solid 2px lightgrey;
+      color: grey;
+      background: #f2f3f4;
+    }
+
+    .btn {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 50vw;
+      padding: 20px;
+      color: gray
+    }
+
+    .btn button {
+      border: none;
+      padding: 15px 30px;
+      color: white;
+      border-radius: 50%;
+      filter: drop-shadow(5px 5px 5px gray);
+    }
+
+    #prvBtn {
+      background: grey;
+    }
+
+    #nxtBtn {
+      background: slateblue;
+    }
+
+    .slider img {
+      width: 50vw;
+      border-radius: 5px;
+    }
+
+    @media screen and (max-width:650px) {
+      .container {
+        justify-content: start;
+      }
+
+      .slider {
+        font-size: 8px;
+        width: 60vw;
+        height: 20vh;
+      }
+
+      .btn {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 60vw;
+        padding: 20px;
+        font-size: 12px;
+      }
+
+      .btn button {
+        padding: 8px 16px;
+      }
+
+
+      .heading {
+        font-size: 20px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="heading">
+      Image Slider
+    </div>
+
+    <div class="slider">
+      <h1>Welcome to Slider</h1>
+    </div>
+
+    <div class="btn">
+      <div class="prevBtn">
+        <button onclick="prevImg()" id="prvBtn">Prev</button>
+      </div>
+      <div id="slide"></div>
+      <div class="nextBtn">
+        <button onclick="nextImg()" id="nxtBtn">Next</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let slider = document.querySelector('.slider')
+    let slide = document.querySelector('#slide')
+    let nxt = document.querySelector('#nxtBtn')
+    let prv = document.querySelector('#prvBtn')
+    let images = ['a.png', 'b.png', 'c.png', 'd.png', 'e.png', 'f.png', 'g.png', 'h.png', 'i.png', 'j.png']
+    let index = 0
+
+    const image = (index) => {
+      slider.innerHTML = `<img src=images/${images[index]}>`
+      slide.innerHTML = `${index + 1} of ${images.length}`
+    }
+
+    const nextImg = () => {
+      if (index < images.length) {
+        image(index)
+        index += 1
+        prv.style.background = 'slateblue'
+      }
+      else {
+        slider.innerHTML = '<h1>End of the Slider</h1>'
+        slide.innerHTML = ''
+        nxt.style.background = 'grey'
+      }
+    }
+
+    const prevImg = () => {
+      if ((index > 0) && index <= images.length) {
+        image(index - 1)
+        index -= 1
+        nxt.style.background = 'slateblue'
+      }
+      else {
+        slider.innerHTML = '<h1>Welcome to the Slider</h1>'
+        slide.innerHTML = ''
+        prv.style.background = 'grey'
+      }
+    }
+
+  </script>
+</body>
+
+</html>
