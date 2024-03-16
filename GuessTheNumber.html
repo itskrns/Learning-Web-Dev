@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Javascript</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: moccasin;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 10px 0px 40px 0px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: lightseagreen;
+        }
+
+        .subtitle {
+            color: gray;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .number {
+            text-align: center;
+            margin: 10px auto;
+            padding: 10px 0px;
+            width: 50%;
+            border-radius: 5px;
+            background: #f2f3f4;
+            color: gray
+        }
+
+        main {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: solid 2px gray;
+            padding: 10px;
+        }
+
+        main section {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+            gap: 10px;
+        }
+
+        input {
+            padding: 30px 20px;
+            font-size: 40px;
+            width: 50%;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 2px;
+            background: lightseagreen;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .score-box p {
+            color: darkslategray;
+            line-height: 40px;
+            font-size: 18px;
+        }
+
+        .success {
+            background: palegreen;
+        }
+
+        .lost {
+            background:rgb(252, 26, 26);
+        }
+
+        .reload {
+            background: moccasin;
+        }
+
+        @media screen and (max-width:950px) {
+            h1 {
+                font-size: 35px;
+            }
+
+            main {
+                flex-flow: column nowrap;
+                justify-content: center;
+            }
+
+            main section {
+                padding: 20px 10px;
+                flex: 1;
+                }
+
+            input {
+                font-size: 30px;
+                width: 80%;
+            }
+
+            #sec1 {
+                order: 1;
+            }
+
+            .score-box p {
+                line-height: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body onload="gameLoad()">
+    <div class="container">
+        <header>
+            <p>
+            <h1>Guess my number
+
+                <p class="number">?</p>
+                <p class="subtitle">(Between 1 to 10)</p>
+
+            </h1>
+
+            </p>
+        </header>
+        <main>
+            <section id="sec1">
+                <input type="tel">
+                <button class="checkNumber">Check Number</button>
+                <button class="playAgain">Play Again</button>
+            </section>
+            <section class="score-box">
+                <p class="message">Start Guessing....</p>
+                <p class="turns"></p>
+                <p class="score"></p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let secretNumber;
+        let turns;
+        let score;
+
+        function gameLoad() {
+            secretNumber = Math.trunc(Math.random() * 50 + 1);
+            turns = 10
+            score = 0
+            setMessage("Start Guessing...")
+            document.body.classList = 'reload'
+            document.querySelector('input').value = ''
+            document.querySelector('.number').textContent = '?'
+            document.querySelector('.turns').textContent = `Turns Left: ${turns}`
+            document.querySelector('.score').textContent = `Your Score: ${score}`
+        }
+
+        function setTurns() {
+            document.querySelector('.turns').textContent = `Turns Left: ${turns}`
+        }
+
+        function setScore() {
+            score += 10
+            document.querySelector('.score').textContent = `Your Score: ${score}`
+        }
+
+        function setMessage(msg) {
+            document.querySelector('.message').textContent = msg
+        }
+
+        document.querySelector('.checkNumber').addEventListener('click', function () {
+            const guess = document.querySelector('input').value
+
+            if (!guess) {
+                setMessage("No Number!")
+            }
+
+            else if (Number(guess) === secretNumber) {
+                setMessage("You won!")
+                document.querySelector('.number').textContent = `${secretNumber}`
+                document.body.classList = 'success'
+                document.querySelector('checkNumber').setAttribute('disabled', true)
+                turns--
+                setTurns()
+                setScore()
+            }
+
+            else if ((Number(guess)) !== secretNumber) {
+                if (turns > 1) {
+                    setMessage(guess > secretNumber ? "Too High" : "Too Low")
+                    turns--
+                    setTurns()
+                }
+                else {
+                    setMessage("You lost the game!")
+                    document.body.classList = 'lost'
+                    turns = 0
+                    setTurns()
+                }
+            }
+        })
+
+        document.querySelector('.playAgain').addEventListener('click', gameLoad)
+
+    </script>
+</body>
+
+</html>
