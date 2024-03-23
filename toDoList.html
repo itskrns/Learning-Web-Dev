@@ -190,12 +190,18 @@
             }
         }
 
+        const capitalizeStr = function (taskName) {
+            return taskName.split(' ').map(n => {
+                return (n[0].toUpperCase() + n.slice(1));
+            }).join(' ');
+        }
+       
         const showList = (tasks) => {
             let data = tasks.map(t => {
                 return `<div class="taskBox">
                             <div class="box ${t.checked ? 'marked' : ''}">
                             <input type="checkbox" ${t.checked ? 'checked' : ''} id=${t.id}>
-                            ${t.task[0].toUpperCase() + t.task.slice(1, t.task.length)}
+                                ${capitalizeStr(t.task)}
                         </div>
                         <button id=${t.id}>Delete</button></div>`
             })
